@@ -39,7 +39,6 @@ setup(name='mediapack',
     zip_safe=False,
     classifiers=[
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 2',
         'Operating System :: OS Independent',
     ],
     install_requires=[
