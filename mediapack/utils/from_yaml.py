@@ -14,11 +14,11 @@
 import os
 import yaml
 
-from .eqf import EqFluidJCA
-from .elastic import Elastic
-from .pem import PEM
-from .screen import Screen
-from .fluid import Fluid
+from mediapack.eqf import EqFluidJCA
+from mediapack.elastic import Elastic
+from mediapack.pem import PEM
+from mediapack.screen import Screen
+from mediapack.fluid import Fluid
 
 
 __MEDIUMCLASSES_MAP = {
