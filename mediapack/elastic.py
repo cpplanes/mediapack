@@ -25,6 +25,7 @@
 from .medium import Medium
 from numpy import sqrt
 
+
 class Elastic(Medium):
 
     MEDIUM_TYPE = 'elastic'
@@ -50,7 +51,6 @@ class Elastic(Medium):
         self.mu = None
         self.delta_p = None
         self.delta_s = None
-
 
         super().__init__(**params)
 
