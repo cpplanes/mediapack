@@ -50,6 +50,7 @@ class Elastic(Medium):
         self.mu = None
         self.delta_p = None
         self.delta_s = None
+        self.law = None
 
 
         super().__init__(**params)
