@@ -23,7 +23,7 @@
 #
 
 from .medium import Medium
-
+from numpy import sqrt
 
 class Elastic(Medium):
 
@@ -37,7 +37,8 @@ class Elastic(Medium):
     ]
     OPT_PARAMS = [
         ('lambda_', complex),
-        ('mu', complex)
+        ('mu', complex),
+        ('law', str)
     ]
 
     def __init__(self, **params):
@@ -47,6 +48,9 @@ class Elastic(Medium):
         self.eta = None
         self.lambda_ = None
         self.mu = None
+        self.delta_p = None
+        self.delta_s = None
+
 
         super().__init__(**params)
 
@@ -59,3 +63,6 @@ class Elastic(Medium):
 
     def update_frequency(self, omega):
         self.omega = omega
+        P_mat = self.lambda_ + 2*self.mu
+        self.delta_p = omega*sqrt(self.rho/P_mat)
+        self.delta_s = omega*sqrt(self.rho/self.mu)
