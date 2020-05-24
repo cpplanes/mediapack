@@ -51,18 +51,25 @@ class Elastic(Medium):
         self.mu = None
         self.delta_p = None
         self.delta_s = None
+        self.law = None
 
         super().__init__(**params)
 
     def _compute_missing(self):
-
+        if self.law is None:
+            self.law = "structural"
+            self.E *= (1+1j*self.eta)
         if self.lambda_ is None:
-            self.lambda_ = (1+1j*self.eta)*(self.E*self.nu)/((1+self.nu)*(1-2*self.nu))
+            self.lambda_ = (self.E*self.nu)/((1+self.nu)*(1-2*self.nu))
         if self.mu is None:
-            self.mu = (1+1j*self.eta)*(self.E)/(2*(1+self.nu))
+            self.mu = (self.E)/(2*(1+self.nu))
 
     def update_frequency(self, omega):
         self.omega = omega
+        if self.law == "rubber":
+            self.E = self.E.real+1j*omega*self.eta
+            self.lambda_ = (self.E*self.nu)/((1+self.nu)*(1-2*self.nu))
+            self.mu = (self.E)/(2*(1+self.nu))
         P_mat = self.lambda_ + 2*self.mu
         self.delta_p = omega*sqrt(self.rho/P_mat)
         self.delta_s = omega*sqrt(self.rho/self.mu)
