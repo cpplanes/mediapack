@@ -13,7 +13,7 @@ install:
 # command to run tests
 script:
   - coverage run -m pytest
-  - flake8 pymls
+  - flake8 mediapack
 
 after_success:
 - coveralls
