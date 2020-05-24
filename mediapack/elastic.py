@@ -25,6 +25,7 @@
 from .medium import Medium
 from numpy import sqrt
 
+
 class Elastic(Medium):
 
     MEDIUM_TYPE = 'elastic'
