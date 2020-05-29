@@ -96,6 +96,14 @@ class EqFluidJCA(Medium):
 
         super().__init__(**params)
 
+    @property
+    def c(self):
+        return self.c_eq_til
+
+    @property
+    def rho(self):
+        return self.rho_eq_til
+
     def _compute_missing(self):
         """ Computes the required constant parameters missing from the definition
 
