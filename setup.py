@@ -28,7 +28,7 @@ with open('README.rst', 'r') as fh:
     long_description = fh.read()
 
 setup(name='mediapack',
-    version='0.2.0',
+    version='0.3.0',
     description='Media repository for acoustics',
     long_description=long_description,
     url='https://github.com/cpplanes/mediapack',

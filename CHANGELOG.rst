@@ -1,3 +1,9 @@
+## 0.3.0 - 2020/05/29
+
+### New
+
+- New unified access to rho and c for all media modelled as fluid
+
 ## 0.2.0 - 2020/05/26
 
 ### New
