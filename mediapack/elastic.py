@@ -67,7 +67,7 @@ class Elastic(Medium):
     def update_frequency(self, omega):
         self.omega = omega
         if self.law == "rubber":
-            self.E = self.E.real+1j*omega*self.eta
+            self.E = (self.E.real)+1j*omega*self.eta
             self.lambda_ = (self.E*self.nu)/((1+self.nu)*(1-2*self.nu))
             self.mu = (self.E)/(2*(1+self.nu))
         P_mat = self.lambda_ + 2*self.mu
