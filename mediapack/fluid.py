@@ -51,5 +51,6 @@ class Fluid(Medium):
         super().__init__(**params)
 
     def update_frequency(self, omega):
-        """ For a fluid, does nothing."""
+        """ For a fluid, does nothing.""" # Sisi
         self.omega = omega
+        self.k = omega/self.c
