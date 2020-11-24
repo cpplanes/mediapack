@@ -47,9 +47,12 @@ class Fluid(Medium):
     def __init__(self, **params):
         self.rho = None
         self.c = None
-
+        self.k = None
         super().__init__(**params)
+        self.Z = self.rho*self.c
+        self.K = self.rho*self.c**2
 
     def update_frequency(self, omega):
         """ For a fluid, does nothing."""
         self.omega = omega
+        self.k = omega/self.c
