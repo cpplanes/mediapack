@@ -137,6 +137,7 @@ class EqFluidJCA(Medium):
 
         self.k = omega/self.c_eq_til
 
+
 class EqFluidJCAL(EqFluidJCA):
     """ Represents an equivalent fluid medium with the Johnson-Champoux-Allard-Lafarge approach
 
@@ -183,7 +184,7 @@ class EqFluidJCAL(EqFluidJCA):
     .. [4] D. Lafarge, P. Lemarinier, J.-F. Allard and V. Tarnow, Dynamic compressibility of air in porous structures at audible frequencies, J. Acoust. Soc. Am. 102(4), 1997, pp. 1995-2006
     """
 
-    MEDIUM_TYPE = 'eqf'
+    MEDIUM_TYPE = 'eqfjcal'
     MODEL = 'fluid'
     EXPECTED_PARAMS = EqFluidJCA.EXPECTED_PARAMS + [
         ('k0prime', float),  # Static thermal permeability
