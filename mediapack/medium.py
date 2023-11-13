@@ -53,6 +53,7 @@ class Medium(object):
     def __init__(self, **params):
         self.omega = -1
         self.name = 'Generic Medium'
+        self.extras = {}
 
         if params:
             self.from_dict(params)
@@ -63,6 +64,9 @@ class Medium(object):
             self.__class__.MEDIUM_TYPE,
             self.__class__.MODEL
         )
+
+    def as_dict(self):
+        return {k: self.__getattribute__(k) for k, _ in self.EXPECTED_PARAMS+self.OPT_PARAMS if hasattr(self, k) and self.__getattribute__(k) is not None}
 
     def update_frequency(self, omega):
         """ Computes parameters' value for the given circular frequency
@@ -112,4 +116,8 @@ class Medium(object):
             if param_value is not None:
                 setattr(self, param, param_type(param_value))
         self.name = parameters.get('name', "Unnamed Medium")
+        extra_params = set(parameters.keys()) - set([_[0] for _ in self.__class__.EXPECTED_PARAMS + self.__class__.OPT_PARAMS])
+        for param in extra_params:
+            self.extras[param] = parameters[param]
+
         self._compute_missing()
