@@ -1,3 +1,10 @@
+## 0.4.0 - 2020/12/04
+
+### New
+
+- Fluid and EqFluidJCA now have a 'k' attribute for the wave number
+- Fluid have 'K' and 'Z' attributes for the compressibility and impedance
+
 ## 0.3.0 - 2020/05/29
 
 ### New

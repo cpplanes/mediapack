@@ -1,4 +1,4 @@
-__VERSION__ = '0.3'
+__VERSION__ = '0.4'
 
 from .air import Air
 from .fluid import Fluid
