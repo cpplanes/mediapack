@@ -47,8 +47,10 @@ class Fluid(Medium):
     def __init__(self, **params):
         self.rho = None
         self.c = None
-        self.k = None
         super().__init__(**params)
+
+    def _compute_missing(self):
+        super()._compute_missing()
         self.Z = self.rho*self.c
         self.K = self.rho*self.c**2
 
