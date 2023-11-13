@@ -25,12 +25,12 @@ import pytest
 import tempfile
 import os
 
-from mediapack.utils import from_yaml
+from mediapack.utils import from_yaml, from_json
 from mediapack import Air, EqFluidJCA, Fluid, PEM, Elastic
 from mediapack.medium import Medium
 
 
-class TestMediaLoading:
+class TestMediaLoadingYAML:
 
     @pytest.fixture
     def yaml_fn(self, tmpdir):
@@ -145,6 +145,135 @@ class TestMediaLoading:
                     fh.write('{}: structural\n'.format(p))
 
         medium = from_yaml(yaml_fn, EqFluidJCA)
+        for ii, p in enumerate(eqf_params):
+            assert getattr(medium, p) == ii
+
+
+class TestMediaLoadingJSON:
+
+    @pytest.fixture
+    def json_fn(self, tmpdir):
+        path =  tmpdir.join('medium.json')
+        path.ensure()
+        return path.strpath
+
+    def test_file_not_found(self, tmpdir):
+
+        with pytest.raises(IOError):
+            from_json(tmpdir.join('inexistent.json').strpath)
+
+    def test_bad_medium_type(self, json_fn):
+        with open(json_fn, 'w') as fh:
+            fh.write('{"medium_type": "phony_medium"}')
+
+        with pytest.raises(ValueError):
+            from_json(json_fn)
+
+    def test_missing_parameter(self, json_fn):
+        params = ['phi', 'sigma', 'alpha', 'Lambda_prime']
+
+        with open(json_fn, 'w') as fh:
+            fh.write('{"medium_type": "eqf",')
+            for p in params:
+                fh.write('"{}": 42{}'.format(p, ',' if p!=params[-1] else ''))
+            fh.write('}')
+
+        with pytest.raises(LookupError):
+            from_json(json_fn)
+
+    def test_ok_loading_eqf_withoutopts(self, json_fn):
+        params = ['phi', 'sigma', 'alpha', 'Lambda_prime', 'Lambda']
+
+        with open(json_fn, 'w') as fh:
+            fh.write('{"medium_type": "eqf",')
+            for ii, p in enumerate(params):
+                fh.write('"{}": {}{}'.format(p, ii, ',' if p!=params[-1] else ''))
+            fh.write('}')
+
+        medium = from_json(json_fn)
+        for ii, p in enumerate(params):
+            assert getattr(medium, p) == ii
+
+    def test_ok_loading_eqf_withopts(self, json_fn):
+        params = ['phi', 'sigma', 'alpha', 'Lambda_prime', 'Lambda',
+                  'rho_1', 'nu', 'E', 'eta']
+
+        with open(json_fn, 'w') as fh:
+            fh.write('{"medium_type": "eqf",')
+            for ii, p in enumerate(params):
+                fh.write('"{}": {}{}'.format(p, ii, ',' if p!=params[-1] else ''))
+            fh.write('}')
+
+        medium = from_json(json_fn)
+        for ii, p in enumerate(params):
+            assert getattr(medium, p) == ii
+
+    def test_ok_loading_fluid(self, json_fn):
+        params = ['rho', 'c']
+
+        with open(json_fn, 'w') as fh:
+            fh.write('{"medium_type": "fluid",')
+            for ii, p in enumerate(params):
+                fh.write('"{}": {}{}'.format(p, ii, ',' if p!=params[-1] else ''))
+            fh.write('}')
+
+        medium = from_json(json_fn)
+        for ii, p in enumerate(params):
+            assert getattr(medium, p) == ii
+
+    def test_ok_loading_pem(self, json_fn):
+        params = ['phi', 'sigma', 'alpha', 'Lambda_prime', 'Lambda', 'rho_1', 'nu', 'E',
+                  'eta', 'loss_type']
+
+        with open(json_fn, 'w') as fh:
+            fh.write('{"medium_type": "pem",')
+            for ii, p in enumerate(params):
+                if p!='loss_type':
+                    fh.write('"{}": {},'.format(p, ii))
+                else:
+                    fh.write('"{}": "structural"'.format(p))
+            fh.write('}')
+        with open(json_fn, 'r') as fh:
+            print(fh.read())
+
+        medium = from_json(json_fn)
+        for ii, p in enumerate(params):
+            if p!='loss_type':
+                assert getattr(medium, p) == ii
+            else:
+                assert getattr(medium, p) == 'structural'
+
+    def test_ok_loading_elastic(self, json_fn):
+        params = ['E', 'nu', 'rho', 'eta']
+
+        with open(json_fn, 'w') as fh:
+            fh.write('{"medium_type": "elastic",')
+            for ii, p in enumerate(params):
+                fh.write('"{}": {}{}'.format(p, ii, ',' if p!=params[-1] else ''))
+            fh.write('}')
+
+        medium = from_json(json_fn)
+        for ii, p in enumerate(params):
+            assert getattr(medium, p) == ii
+
+    def test_failed_forced_loading(self, json_fn):
+        pem_params = ['phi', 'sigma', 'alpha', 'Lambda_prime', 'Lambda', 'rho_1', 'nu', 'E',
+                  'eta', 'loss_type']
+        eqf_params = ['phi', 'sigma', 'alpha', 'Lambda_prime', 'Lambda',
+                  'rho_1', 'nu', 'E', 'eta']
+
+        with open(json_fn, 'w') as fh:
+            fh.write('{"medium_type": "pem",')
+            for ii, p in enumerate(pem_params):
+                if p!='loss_type':
+                    fh.write('"{}": {},'.format(p, ii))
+                else:
+                    fh.write('"{}": "structural"'.format(p))
+            fh.write('}')
+        with open(json_fn, 'r') as fh:
+            print(fh.read())
+
+        medium = from_json(json_fn, EqFluidJCA)
         for ii, p in enumerate(eqf_params):
             assert getattr(medium, p) == ii
 

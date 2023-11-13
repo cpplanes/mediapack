@@ -7,4 +7,4 @@ from .eqf import EqFluidJCA, EqFluidJCAL
 from .pem import PEM
 from .screen import Screen
 
-from .utils import from_yaml
+from .utils import from_yaml, from_json
