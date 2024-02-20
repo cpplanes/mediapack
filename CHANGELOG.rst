@@ -1,3 +1,10 @@
+## 0.5.0 - 2023/11/13
+
+### New
+
+- Add a json import utility
+- Change short name of the JCAL model to 'eqfjcal'
+
 ## 0.4.0 - 2020/12/04
 
 ### New
