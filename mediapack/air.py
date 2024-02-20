@@ -93,19 +93,19 @@ class SutherlandAir(Medium):
         )
 
         # Heat capacity at constant volume [J.kg^-1]
-        self.C_v = self.C_p - self.R
+        self.C_v = self.C_p - R
 
         # Ratio of specific heats
         self.gamma = self.C_p / self.C_v
 
         # Sound speed [m.s^-1]
-        self.c = np.sqrt(self.gamma * self.R * self.T)
+        self.c = np.sqrt(self.gamma * R * self.T)
         self.Pr = self.mu * self.C_p / self.lambda_
-        molar_mass = 0.29e-1 # molar mass [kg.mol^-1]
-        K = self.gamma * self.P  # adiabatic bulk modulus
+        self.molar_mass = 0.29e-1 # molar mass [kg.mol^-1]
+        self.K = self.gamma * self.P  # adiabatic bulk modulus
         self.Z = self.rho * self.c # characteristic impedance
-        nu = mu/rho  # kinematic viscosity [m.s^-2]
-        nu_prime = nu/Pr  # viscothermal losses
+        self.nu = self.mu/self.rho  # kinematic viscosity [m.s^-2]
+        self.nu_prime = self.nu/self.Pr  # viscothermal losses
 
         def from_yaml(self, *args, **kwargs):
             pass
