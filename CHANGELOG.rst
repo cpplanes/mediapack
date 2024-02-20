@@ -1,3 +1,9 @@
+## 0.5.1 - 2024/02/20
+
+### New
+
+- Add Sutherland's model for air
+
 ## 0.5.0 - 2023/11/13
 
 ### New
