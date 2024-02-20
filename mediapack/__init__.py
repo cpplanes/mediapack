@@ -1,6 +1,6 @@
 __VERSION__ = '0.5'
 
-from .air import Air
+from .air import Air, SutherlandAir
 from .fluid import Fluid
 from .elastic import Elastic
 from .eqf import EqFluidJCA, EqFluidJCAL
